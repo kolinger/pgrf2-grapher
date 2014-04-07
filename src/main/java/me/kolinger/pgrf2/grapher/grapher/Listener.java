@@ -70,6 +70,7 @@ public class Listener implements GLEventListener {
         gl.glVertex3f(0, 0, -100);
         gl.glEnd();
 
+        plot.drawInfo(glDrawable);
         plot.generatePlot(gl);
     }
 

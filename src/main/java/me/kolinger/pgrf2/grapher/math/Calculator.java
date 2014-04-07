@@ -10,9 +10,19 @@ import de.congrace.exp4j.InvalidCustomFunctionException;
 public class Calculator {
 
     private ExpressionBuilder builder;
+    private String function;
 
     public Calculator(String function) {
         builder = createBuilder(function);
+        this.function = function;
+    }
+
+    public String getFunction() {
+        return function;
+    }
+
+    public void setFunction(String function) {
+        this.function = function;
     }
 
     public Double calculate(double x, double y) {

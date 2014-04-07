@@ -3,6 +3,7 @@ package me.kolinger.pgrf2.grapher.grapher;
 import me.kolinger.pgrf2.grapher.math.Calculator;
 
 import javax.media.opengl.GL2;
+import javax.media.opengl.GLAutoDrawable;
 
 /**
  * @author Tomáš Kolinger <tomas@kolinger.name>
@@ -105,5 +106,10 @@ public class ParametricPlot extends BasePlot {
     protected void generatePlot(GL2 gl) {
         System.err.println("PARAMETRIC PLOT IS NOT IMPLEMENTED YET!");
         System.exit(-1);
+    }
+
+    @Override
+    protected void drawInfo(GLAutoDrawable glAutoDrawable) {
+
     }
 }

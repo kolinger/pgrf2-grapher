@@ -1,8 +1,11 @@
 package me.kolinger.pgrf2.grapher.grapher;
 
+import com.jogamp.opengl.util.awt.TextRenderer;
 import me.kolinger.pgrf2.grapher.math.Calculator;
 
 import javax.media.opengl.GL2;
+import javax.media.opengl.GLAutoDrawable;
+import java.awt.Font;
 
 /**
  * @author Tomáš Kolinger <tomas@kolinger.name>
@@ -82,6 +85,15 @@ public class Plot extends BasePlot {
     /**
      * ***************************** logic *****************************
      */
+
+    @Override
+    protected void drawInfo(GLAutoDrawable glAutoDrawable) {
+        TextRenderer renderer = new TextRenderer(new Font("SansSerif", Font.PLAIN, 16));
+        renderer.beginRendering(glAutoDrawable.getWidth(), glAutoDrawable.getHeight());
+        renderer.setColor(1, 1, 1, 1);
+        renderer.draw(calculator.getFunction(), 10, 10);
+        renderer.endRendering();
+    }
 
     @Override
     protected void generatePlot(GL2 gl) {
