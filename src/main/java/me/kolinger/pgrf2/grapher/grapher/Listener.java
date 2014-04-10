@@ -36,12 +36,12 @@ public class Listener implements GLEventListener {
         gl.glRotatef(plot.getRotateX(), 1.0f, 0.0f, 0.0f);
         gl.glRotatef(plot.getRotateY(), 0.0f, 1.0f, 0.0f);
 
+        plot.processCalculations();
+
         textRenderer.beginRendering(glDrawable.getWidth(), glDrawable.getHeight());
         textRenderer.setColor(1, 1, 1, 1);
         plot.drawText(textRenderer);
         textRenderer.endRendering();
-
-        plot.processCalculations();
 
         for (Quad quad : plot.getQuads()) {
             if (plot.isFillEnabled()) {

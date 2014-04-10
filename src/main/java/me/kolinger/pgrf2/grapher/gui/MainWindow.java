@@ -72,7 +72,6 @@ public class MainWindow extends JFrame implements Runnable {
                 } else {
                     plot.setDistance(plot.getDistance() - 0.1);
                 }
-                plot.setNeedRefresh(true);
             }
         });
 
@@ -86,7 +85,6 @@ public class MainWindow extends JFrame implements Runnable {
 
                 plot.setRotateX(savedDiffY - diffY);
                 plot.setRotateY(savedDiffX - diffX);
-                plot.setNeedRefresh(true);
             }
         });
 

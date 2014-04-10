@@ -92,7 +92,8 @@ public class Plot extends BasePlot {
 
     @Override
     protected void drawText(TextRenderer renderer) {
-        renderer.draw(calculator.getFunction(), 10, 10);
+        renderer.draw("Function: " + calculator.getFunction(), 10, 10);
+        renderer.draw("Density: " + getQuads().size(), 10, 30);
     }
 
     @Override
