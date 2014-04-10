@@ -91,9 +91,15 @@ public class MainWindow extends JFrame implements Runnable {
         canvas.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_R) {
+                if (e.getKeyCode() == KeyEvent.VK_N) {
                     plot.setCalculator(new Calculator(BuiltInFunctions.getNextFunction()));
                     plot.setNeedRefresh(true);
+                } else if (e.getKeyCode() == KeyEvent.VK_A) {
+                    plot.setAxesEnabled(!plot.isAxesEnabled());
+                } else if (e.getKeyCode() == KeyEvent.VK_L) {
+                    plot.setLinesEnabled(!plot.isLinesEnabled());
+                } else if (e.getKeyCode() == KeyEvent.VK_F) {
+                    plot.setFillEnabled(!plot.isFillEnabled());
                 }
             }
         });

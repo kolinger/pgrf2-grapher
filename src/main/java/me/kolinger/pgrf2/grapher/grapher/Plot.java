@@ -12,17 +12,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Basic plot - one function for Z with range for X and Y
+ *
  * @author Tomáš Kolinger <tomas@kolinger.name>
  */
 public class Plot extends BasePlot {
 
     private double xFrom = -1;
     private double xTo = 1;
-    private double xStep = 0.1;
+    private double xStep = 0.05;
 
     private double yFrom = -1;
     private double yTo = 1;
-    private double yStep = 0.1;
+    private double yStep = 0.05;
 
     private Calculator calculator;
 
@@ -109,6 +111,7 @@ public class Plot extends BasePlot {
         double maxZ = Double.NEGATIVE_INFINITY;
         Map<Key, Double> buffer = new HashMap<Key, Double>();
 
+        // calculate all Z coordinates, store in buffer for future usage
         for (double y = yFrom; y <= yTo; y += yStep) {
             for (double x = xFrom; x <= xTo; x += xStep) {
                 Double z = calculator.calculate(x, y);
@@ -131,6 +134,7 @@ public class Plot extends BasePlot {
         Color color;
         Point a, b, c, d;
 
+        // generate quads with relevant color
         for (double y = yFrom + yStep; y <= yTo; y += yStep) {
             double prevY = y - yStep;
 
@@ -188,6 +192,9 @@ public class Plot extends BasePlot {
         setNeedRefresh(false); // prevents unnecessary calculations
     }
 
+    /**
+     * Helper for storing Z coordinates in map
+     */
     public class Key {
         private BigDecimal x;
         private BigDecimal y;

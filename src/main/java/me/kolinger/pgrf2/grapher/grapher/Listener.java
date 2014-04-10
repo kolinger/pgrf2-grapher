@@ -75,14 +75,14 @@ public class Listener implements GLEventListener {
             gl.glBegin(GL2.GL_LINES);
             gl.glColor3f(1, 1, 1);
 
-            gl.glVertex3f(100, 0, 0);
-            gl.glVertex3f(-100, 0, 0);
+            gl.glVertex3f(1, 0, 0);
+            gl.glVertex3f(-1, 0, 0);
 
-            gl.glVertex3f(0, 100, 0);
-            gl.glVertex3f(0, -100, 0);
+            gl.glVertex3f(0, 1, 0);
+            gl.glVertex3f(0, -1, 0);
 
-            gl.glVertex3f(0, 0, 100);
-            gl.glVertex3f(0, 0, -100);
+            gl.glVertex3f(0, 0, 1);
+            gl.glVertex3f(0, 0, -1);
             gl.glEnd();
         }
     }

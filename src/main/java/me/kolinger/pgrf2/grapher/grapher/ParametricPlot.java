@@ -6,6 +6,8 @@ import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 
 /**
+ * Parametric plot - three functions for X, Y, Z with range for u and v
+ *
  * @author Tomáš Kolinger <tomas@kolinger.name>
  */
 public abstract class ParametricPlot extends BasePlot {
