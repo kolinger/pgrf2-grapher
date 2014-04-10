@@ -8,7 +8,7 @@ import javax.media.opengl.GLAutoDrawable;
 /**
  * @author Tomáš Kolinger <tomas@kolinger.name>
  */
-public class ParametricPlot extends BasePlot {
+public abstract class ParametricPlot extends BasePlot {
 
     private int uFrom = -5;
     private int uTo = 5;
@@ -102,14 +102,5 @@ public class ParametricPlot extends BasePlot {
      * ***************************** logic *****************************
      */
 
-    @Override
-    protected void generatePlot(GL2 gl) {
-        System.err.println("PARAMETRIC PLOT IS NOT IMPLEMENTED YET!");
-        System.exit(-1);
-    }
 
-    @Override
-    protected void drawInfo(GLAutoDrawable glAutoDrawable) {
-
-    }
 }

@@ -1,11 +1,15 @@
 package me.kolinger.pgrf2.grapher.grapher;
 
 import com.jogamp.opengl.util.awt.TextRenderer;
+import me.kolinger.pgrf2.grapher.grapher.model.Color;
+import me.kolinger.pgrf2.grapher.grapher.model.Point;
+import me.kolinger.pgrf2.grapher.grapher.model.Quad;
 import me.kolinger.pgrf2.grapher.math.Calculator;
 
-import javax.media.opengl.GL2;
-import javax.media.opengl.GLAutoDrawable;
-import java.awt.Font;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Tomáš Kolinger <tomas@kolinger.name>
@@ -87,26 +91,28 @@ public class Plot extends BasePlot {
      */
 
     @Override
-    protected void drawInfo(GLAutoDrawable glAutoDrawable) {
-        TextRenderer renderer = new TextRenderer(new Font("SansSerif", Font.PLAIN, 16));
-        renderer.beginRendering(glAutoDrawable.getWidth(), glAutoDrawable.getHeight());
-        renderer.setColor(1, 1, 1, 1);
+    protected void drawText(TextRenderer renderer) {
         renderer.draw(calculator.getFunction(), 10, 10);
-        renderer.endRendering();
     }
 
     @Override
-    protected void generatePlot(GL2 gl) {
+    protected void processCalculations() {
+        if (!isNeedRefresh()) {
+            return; // quads are already calculated, skip
+        }
+
+        getQuads().clear(); // delete old quads
+
+        // generate new quads
         double minZ = Double.POSITIVE_INFINITY;
         double maxZ = Double.NEGATIVE_INFINITY;
-//        Map<Double, Map<Double, Double>> buffer = new HashMap<Double, Map<Double, Double>>();
+        Map<Key, Double> buffer = new HashMap<Key, Double>();
 
         for (double y = yFrom; y <= yTo; y += yStep) {
             for (double x = xFrom; x <= xTo; x += xStep) {
                 Double z = calculator.calculate(x, y);
-                if (z == null) {
-//                    z = Double.POSITIVE_INFINITY;
-                } else {
+                buffer.put(new Key(x, y), z);
+                if (z != null) {
                     if (z < minZ) {
                         minZ = z;
                     }
@@ -114,21 +120,15 @@ public class Plot extends BasePlot {
                         maxZ = z;
                     }
                 }
-
-//                if (buffer.containsKey(y)) {
-//                    Map<Double, Double> map = buffer.get(y);
-//                    if (!map.containsKey(x)) {
-//                        map.put(x, z);
-//                    }
-//                } else {
-//                    Map<Double, Double> map = new HashMap<Double, Double>();
-//                    map.put(x, z);
-//                    buffer.put(y, map);
-//                }
             }
         }
 
-        double range = (Math.abs(minZ) + Math.abs(maxZ));
+        double range = Math.abs(minZ) + maxZ;
+
+        double z;
+        double colorIntensity;
+        Color color;
+        Point a, b, c, d;
 
         for (double y = yFrom + yStep; y <= yTo; y += yStep) {
             double prevY = y - yStep;
@@ -136,55 +136,84 @@ public class Plot extends BasePlot {
             for (double x = xFrom + xStep; x <= xTo; x += xStep) {
                 double prevX = x - xStep;
 
-                Double z1 = calculator.calculate(x, y);
-                Double z2 = calculator.calculate(x, prevY);
-                Double z3 = calculator.calculate(prevX, prevY);
-                Double z4 = calculator.calculate(prevX, y);
-//                double z1 = buffer.get(y).get(x);
-//                double z2 = buffer.get(prevY).get(y);
-//                double z3 = buffer.get(prevY).get(prevX);
-//                double z4 = buffer.get(y).get(prevX);
-
-                // calculation failed, position is not defined - skip that quad
-                if (z1 == Double.POSITIVE_INFINITY || z2 == Double.POSITIVE_INFINITY ||
-                        z3 == Double.POSITIVE_INFINITY || z4 == Double.POSITIVE_INFINITY) {
-
-                    continue;
+                z = buffer.get(new Key(x, y));
+                colorIntensity = 0.008 * ((z / range) * 100);
+                if (getColor() == COLOR_RED) {
+                    color = new Color(1, colorIntensity, colorIntensity);
+                } else if (getColor() == COLOR_GREEN) {
+                    color = new Color(colorIntensity, 1, colorIntensity);
+                } else {
+                    color = new Color(colorIntensity, colorIntensity, 1);
                 }
+                a = new Point(x, y, z, color);
 
-                gl.glBegin(GL2.GL_QUADS);
-                double c1 = 0.008 * ((Math.abs(z1) / range) * 100);
-                gl.glColor3d(c1, c1, 1);
-                gl.glVertex3d(x, y, z1);
+                z = buffer.get(new Key(x, prevY));
+                colorIntensity = 0.008 * ((z / range) * 100);
+                if (getColor() == COLOR_RED) {
+                    color = new Color(1, colorIntensity, colorIntensity);
+                } else if (getColor() == COLOR_GREEN) {
+                    color = new Color(colorIntensity, 1, colorIntensity);
+                } else {
+                    color = new Color(colorIntensity, colorIntensity, 1);
+                }
+                b = new Point(x, prevY, z, color);
 
-                double c2 = 0.008 * ((Math.abs(z2) / range) * 100);
-                gl.glColor3d(c2, c2, 1);
-                gl.glVertex3d(x, prevY, z2);
+                z = buffer.get(new Key(prevX, prevY));
+                colorIntensity = 0.008 * ((z / range) * 100);
+                if (getColor() == COLOR_RED) {
+                    color = new Color(1, colorIntensity, colorIntensity);
+                } else if (getColor() == COLOR_GREEN) {
+                    color = new Color(colorIntensity, 1, colorIntensity);
+                } else {
+                    color = new Color(colorIntensity, colorIntensity, 1);
+                }
+                c = new Point(prevX, prevY, z, color);
 
-                double c3 = 0.008 * ((Math.abs(z3) / range) * 100);
-                gl.glColor3d(c3, c3, 1);
-                gl.glVertex3d(prevX, prevY, z3);
+                z = buffer.get(new Key(prevX, y));
+                colorIntensity = 0.008 * ((z / range) * 100);
+                if (getColor() == COLOR_RED) {
+                    color = new Color(1, colorIntensity, colorIntensity);
+                } else if (getColor() == COLOR_GREEN) {
+                    color = new Color(colorIntensity, 1, colorIntensity);
+                } else {
+                    color = new Color(colorIntensity, colorIntensity, 1);
+                }
+                d = new Point(prevX, y, z, color);
 
-                double c4 = 0.008 * ((Math.abs(z4) / range) * 100);
-                gl.glColor3d(c4, c4, 1);
-                gl.glVertex3d(prevX, y, z4);
-                gl.glEnd();
-
-                gl.glBegin(GL2.GL_LINES);
-                gl.glColor3d(0.7, 0.7, 1);
-                gl.glVertex3d(x, y, z1);
-                gl.glVertex3d(x, prevY, z2);
-
-                gl.glVertex3d(x, prevY, z2);
-                gl.glVertex3d(prevX, prevY, z3);
-
-                gl.glVertex3d(prevX, prevY, z3);
-                gl.glVertex3d(prevX, y, z4);
-
-                gl.glVertex3d(prevX, y, z4);
-                gl.glVertex3d(x, y, z1);
-                gl.glEnd();
+                getQuads().add(new Quad(a, b, c, d));
             }
+        }
+
+        setNeedRefresh(false); // prevents unnecessary calculations
+    }
+
+    public class Key {
+        private BigDecimal x;
+        private BigDecimal y;
+
+        public Key(double x, double y) {
+            this.x = new BigDecimal(x).setScale(2, RoundingMode.HALF_UP);
+            this.y = new BigDecimal(y).setScale(2, RoundingMode.HALF_UP);
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            Key key = (Key) o;
+
+            if (key.x.compareTo(x) != 0) return false;
+            if (key.y.compareTo(y) != 0) return false;
+
+            return true;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = x != null ? x.hashCode() : 0;
+            result = 31 * result + (y != null ? y.hashCode() : 0);
+            return result;
         }
     }
 }

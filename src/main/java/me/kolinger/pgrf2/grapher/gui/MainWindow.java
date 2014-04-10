@@ -22,8 +22,8 @@ import java.awt.event.MouseWheelEvent;
  */
 public class MainWindow extends JFrame implements Runnable {
 
-    private Integer startX;
-    private Integer startY;
+    private Integer startX = 0;
+    private Integer startY = 0;
     private Integer savedDiffX = 0;
     private Integer savedDiffY = 0;
 
@@ -58,8 +58,8 @@ public class MainWindow extends JFrame implements Runnable {
             @Override
             public void mouseReleased(MouseEvent e) {
                 super.mousePressed(e);
-                savedDiffX = plot.getListener().getRotateY();
-                savedDiffY = plot.getListener().getRotateX();
+                savedDiffX = plot.getRotateY();
+                savedDiffY = plot.getRotateX();
             }
 
         });
@@ -68,10 +68,11 @@ public class MainWindow extends JFrame implements Runnable {
             @Override
             public void mouseWheelMoved(MouseWheelEvent e){
                 if(e.getWheelRotation() > 0) {
-                    plot.getListener().setDistance(plot.getListener().getDistance() + 0.1);
+                    plot.setDistance(plot.getDistance() + 0.1);
                 } else {
-                    plot.getListener().setDistance(plot.getListener().getDistance() - 0.1);
+                    plot.setDistance(plot.getDistance() - 0.1);
                 }
+                plot.setNeedRefresh(true);
             }
         });
 
@@ -83,8 +84,9 @@ public class MainWindow extends JFrame implements Runnable {
                 Integer diffX = (int) ((startX - e.getX()) * 0.1);
                 Integer diffY = (int) ((startY - e.getY()) * 0.1);
 
-                plot.getListener().setRotateX(savedDiffY - diffY);
-                plot.getListener().setRotateY(savedDiffX - diffX);
+                plot.setRotateX(savedDiffY - diffY);
+                plot.setRotateY(savedDiffX - diffX);
+                plot.setNeedRefresh(true);
             }
         });
 
@@ -93,6 +95,7 @@ public class MainWindow extends JFrame implements Runnable {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_R) {
                     plot.setCalculator(new Calculator(BuiltInFunctions.getNextFunction()));
+                    plot.setNeedRefresh(true);
                 }
             }
         });
