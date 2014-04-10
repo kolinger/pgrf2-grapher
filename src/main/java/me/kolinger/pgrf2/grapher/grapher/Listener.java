@@ -36,19 +36,6 @@ public class Listener implements GLEventListener {
         gl.glRotatef(plot.getRotateX(), 1.0f, 0.0f, 0.0f);
         gl.glRotatef(plot.getRotateY(), 0.0f, 1.0f, 0.0f);
 
-        gl.glBegin(GL2.GL_LINES);
-        gl.glColor3f(1, 1, 1);
-
-        gl.glVertex3f(100, 0, 0);
-        gl.glVertex3f(-100, 0, 0);
-
-        gl.glVertex3f(0, 100, 0);
-        gl.glVertex3f(0, -100, 0);
-
-        gl.glVertex3f(0, 0, 100);
-        gl.glVertex3f(0, 0, -100);
-        gl.glEnd();
-
         textRenderer.beginRendering(glDrawable.getWidth(), glDrawable.getHeight());
         textRenderer.setColor(1, 1, 1, 1);
         plot.drawText(textRenderer);
@@ -82,6 +69,21 @@ public class Listener implements GLEventListener {
                 addLineVertexHelper(gl, quad.getD(), quad.getA());
                 gl.glEnd();
             }
+        }
+
+        if (plot.isAxesEnabled()) {
+            gl.glBegin(GL2.GL_LINES);
+            gl.glColor3f(1, 1, 1);
+
+            gl.glVertex3f(100, 0, 0);
+            gl.glVertex3f(-100, 0, 0);
+
+            gl.glVertex3f(0, 100, 0);
+            gl.glVertex3f(0, -100, 0);
+
+            gl.glVertex3f(0, 0, 100);
+            gl.glVertex3f(0, 0, -100);
+            gl.glEnd();
         }
     }
 
