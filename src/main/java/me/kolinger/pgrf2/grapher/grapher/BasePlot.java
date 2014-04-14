@@ -17,9 +17,10 @@ public abstract class BasePlot {
     final public static int COLOR_BLUE = 2;
 
     private int color = COLOR_BLUE;
-    private boolean linesEnabled = true;
+    private boolean linesEnabled = false;
     private boolean fillEnabled = true;
     private boolean axesEnabled = true;
+    private boolean lightEnabled = true;
     private int rotateX = 0;
     private int rotateY = 0;
     private double distance = 5;
@@ -57,6 +58,14 @@ public abstract class BasePlot {
 
     public void setAxesEnabled(boolean axesEnabled) {
         this.axesEnabled = axesEnabled;
+    }
+
+    public boolean isLightEnabled() {
+        return lightEnabled;
+    }
+
+    public void setLightEnabled(boolean lightEnabled) {
+        this.lightEnabled = lightEnabled;
     }
 
     public int getRotateX() {
