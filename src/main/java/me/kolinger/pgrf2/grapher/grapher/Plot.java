@@ -130,7 +130,6 @@ public class Plot extends BasePlot {
         double range = Math.abs(minZ) + maxZ;
 
         double z;
-        double colorIntensity;
         Color color;
         Point a, b, c, d;
 
@@ -142,47 +141,19 @@ public class Plot extends BasePlot {
                 double prevX = x - xStep;
 
                 z = buffer.get(new Key(x, y));
-                colorIntensity = 0.008 * ((z / range) * 100);
-                if (getColor() == COLOR_RED) {
-                    color = new Color(1, colorIntensity, colorIntensity);
-                } else if (getColor() == COLOR_GREEN) {
-                    color = new Color(colorIntensity, 1, colorIntensity);
-                } else {
-                    color = new Color(colorIntensity, colorIntensity, 1);
-                }
+                color = calculateColorByZ(z, range);
                 a = new Point(x, y, z, color);
 
                 z = buffer.get(new Key(x, prevY));
-                colorIntensity = 0.008 * ((z / range) * 100);
-                if (getColor() == COLOR_RED) {
-                    color = new Color(1, colorIntensity, colorIntensity);
-                } else if (getColor() == COLOR_GREEN) {
-                    color = new Color(colorIntensity, 1, colorIntensity);
-                } else {
-                    color = new Color(colorIntensity, colorIntensity, 1);
-                }
+                color = calculateColorByZ(z, range);
                 b = new Point(x, prevY, z, color);
 
                 z = buffer.get(new Key(prevX, prevY));
-                colorIntensity = 0.008 * ((z / range) * 100);
-                if (getColor() == COLOR_RED) {
-                    color = new Color(1, colorIntensity, colorIntensity);
-                } else if (getColor() == COLOR_GREEN) {
-                    color = new Color(colorIntensity, 1, colorIntensity);
-                } else {
-                    color = new Color(colorIntensity, colorIntensity, 1);
-                }
+                color = calculateColorByZ(z, range);
                 c = new Point(prevX, prevY, z, color);
 
                 z = buffer.get(new Key(prevX, y));
-                colorIntensity = 0.008 * ((z / range) * 100);
-                if (getColor() == COLOR_RED) {
-                    color = new Color(1, colorIntensity, colorIntensity);
-                } else if (getColor() == COLOR_GREEN) {
-                    color = new Color(colorIntensity, 1, colorIntensity);
-                } else {
-                    color = new Color(colorIntensity, colorIntensity, 1);
-                }
+                color = calculateColorByZ(z, range);
                 d = new Point(prevX, y, z, color);
 
                 getQuads().add(new Quad(a, b, c, d));
@@ -190,6 +161,17 @@ public class Plot extends BasePlot {
         }
 
         setNeedRefresh(false); // prevents unnecessary calculations
+    }
+
+    private Color calculateColorByZ(double z, double range) {
+        double colorIntensity = 0.008 * ((z / range) * 100);
+        if (getColor() == COLOR_RED) {
+            return new Color(1, colorIntensity, colorIntensity);
+        } else if (getColor() == COLOR_GREEN) {
+            return new Color(colorIntensity, 1, colorIntensity);
+        } else {
+            return new Color(colorIntensity, colorIntensity, 1);
+        }
     }
 
     /**
