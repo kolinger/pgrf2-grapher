@@ -18,11 +18,11 @@ import java.util.Map;
 public class ParametricPlot extends BasePlot {
 
     private double uFrom = 0;
-    private double uTo = 2 * Math.PI;
+    private double uTo = 6.28;
     private double uStep = 0.1;
 
-    private double vFrom = -Math.PI;
-    private double vTo = Math.PI;
+    private double vFrom = -3.14;
+    private double vTo = 3.14;
     private double vStep = 0.1;
 
     private Calculator xCalculator;
