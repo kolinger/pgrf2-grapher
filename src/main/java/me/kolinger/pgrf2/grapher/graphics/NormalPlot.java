@@ -15,7 +15,7 @@ import java.util.Map;
  *
  * @author Tomáš Kolinger <tomas@kolinger.name>
  */
-public class Plot extends BasePlot {
+public class NormalPlot extends BasePlot {
 
     private double xFrom = -1;
     private double xTo = 1;
