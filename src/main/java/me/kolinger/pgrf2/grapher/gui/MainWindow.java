@@ -147,8 +147,13 @@ public class MainWindow extends JFrame implements Runnable {
             @Override
             public void mouseReleased(MouseEvent e) {
                 super.mousePressed(e);
-                savedDiffX = plot.getRotateY();
-                savedDiffY = plot.getRotateX();
+                if (mode == MODE_Z) {
+                    savedDiffX = plot.getRotateY();
+                    savedDiffY = plot.getRotateX();
+                } else {
+                    savedDiffX = parametricPlot.getRotateY();
+                    savedDiffY = parametricPlot.getRotateX();
+                }
             }
 
         });
@@ -164,9 +169,9 @@ public class MainWindow extends JFrame implements Runnable {
                     }
                 } else {
                     if (e.getWheelRotation() > 0) {
-                        parametricPlot.setDistance(plot.getDistance() + 0.1);
+                        parametricPlot.setDistance(parametricPlot.getDistance() + 0.1);
                     } else {
-                        parametricPlot.setDistance(plot.getDistance() - 0.1);
+                        parametricPlot.setDistance(parametricPlot.getDistance() - 0.1);
                     }
                 }
             }
