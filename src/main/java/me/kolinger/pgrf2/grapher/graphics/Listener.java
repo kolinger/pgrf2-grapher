@@ -135,7 +135,7 @@ public class Listener implements GLEventListener {
             if (plot.isLinesEnabled()) {
                 gl.glBegin(GL2.GL_LINES);
                 if (!plot.isLightEnabled()) {
-                    gl.glColor3d(0, 0, 0);
+                    gl.glColor3d(1, 1, 1);
                 }
 
                 addLineVertexHelper(quad.getA(), quad.getB());
@@ -146,7 +146,7 @@ public class Listener implements GLEventListener {
             }
         }
 
-        // axes and info text
+        // axes
         gl.glDisable(GL2.GL_LIGHTING);
 
         if (plot.isAxesEnabled()) {
