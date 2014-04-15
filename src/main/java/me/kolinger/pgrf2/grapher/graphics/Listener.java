@@ -116,11 +116,11 @@ public class Listener implements GLEventListener {
 
                     float[] color;
                     if (plot.getColor() == BasePlot.COLOR_RED) {
-                        color = new float[]{1, 0.1f, 0.1f};
+                        color = new float[]{0.8f, 0.1f, 0.1f};
                     } else if (plot.getColor() == BasePlot.COLOR_GREEN) {
                         color = new float[]{0.1f, 1, 0.1f};
                     } else {
-                        color = new float[]{0.1f, 0.1f, 1};
+                        color = new float[]{0.1f, 0.1f, 0.8f};
                     }
                     gl.glMaterialfv(GL2.GL_FRONT_AND_BACK, GL2.GL_DIFFUSE, color, 0);
                 }
