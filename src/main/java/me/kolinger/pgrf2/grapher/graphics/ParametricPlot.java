@@ -7,15 +7,15 @@ import me.kolinger.pgrf2.grapher.math.Calculator;
  *
  * @author Tomáš Kolinger <tomas@kolinger.name>
  */
-public abstract class ParametricPlot extends BasePlot {
+public class ParametricPlot extends BasePlot {
 
-    private int uFrom = -5;
-    private int uTo = 5;
-    private int uStep = 1;
+    private double uFrom = 0;
+    private double uTo = 3.14;
+    private double uStep = 0.01;
 
-    private int vFrom = -5;
-    private int vTo = 5;
-    private int vStep = 1;
+    private double vFrom = -3.14;
+    private double vTo = 3.14;
+    private double vStep = 0.01;
 
     private Calculator xCalculator;
     private Calculator yCalculator;
@@ -25,51 +25,51 @@ public abstract class ParametricPlot extends BasePlot {
      * ***************************** accessors *****************************
      */
 
-    public int getUFrom() {
+    public double getUFrom() {
         return uFrom;
     }
 
-    public void setUFrom(int uFrom) {
+    public void setUFrom(double uFrom) {
         this.uFrom = uFrom;
     }
 
-    public int getUTo() {
+    public double getUTo() {
         return uTo;
     }
 
-    public void setUTo(int uTo) {
+    public void setUTo(double uTo) {
         this.uTo = uTo;
     }
 
-    public int getUStep() {
+    public double getUStep() {
         return uStep;
     }
 
-    public void setUStep(int uStep) {
+    public void setUStep(double uStep) {
         this.uStep = uStep;
     }
 
-    public int getVFrom() {
+    public double getVFrom() {
         return vFrom;
     }
 
-    public void setVFrom(int vFrom) {
+    public void setVFrom(double vFrom) {
         this.vFrom = vFrom;
     }
 
-    public int getVTo() {
+    public double getVTo() {
         return vTo;
     }
 
-    public void setVTo(int vTo) {
+    public void setVTo(double vTo) {
         this.vTo = vTo;
     }
 
-    public int getVStep() {
+    public double getVStep() {
         return vStep;
     }
 
-    public void setVStep(int vStep) {
+    public void setVStep(double vStep) {
         this.vStep = vStep;
     }
 
@@ -101,5 +101,8 @@ public abstract class ParametricPlot extends BasePlot {
      * ***************************** logic *****************************
      */
 
+    @Override
+    protected void processCalculations() {
 
+    }
 }
