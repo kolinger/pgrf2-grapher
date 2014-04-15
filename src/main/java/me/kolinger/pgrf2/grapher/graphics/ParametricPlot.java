@@ -123,8 +123,8 @@ public class ParametricPlot extends BasePlot {
         Map<Key, Value> buffer = new HashMap<Key, Value>();
 
         // calculate all coordinates, store in buffer for future usage
-        for (double v = vFrom; v <= vTo; v += vStep) {
-            for (double u = uFrom; u <= uTo; u += uStep) {
+        for (double v = vFrom; v <= vTo + vStep; v += vStep) {
+            for (double u = uFrom; u <= uTo + uStep; u += uStep) {
                 try {
                     Double x = xCalculator.calculateParametric(u, v);
                     Double y = yCalculator.calculateParametric(u, v);
@@ -151,10 +151,10 @@ public class ParametricPlot extends BasePlot {
         Point a, b, c, d;
 
         // generate quads with relevant color
-        for (double v = vFrom + vStep; v <= vTo; v += vStep) {
+        for (double v = vFrom + vStep; v <= vTo + vStep; v += vStep) {
             double prevV = v - vStep;
 
-            for (double u = uFrom + uStep; u <= uTo; u += uStep) {
+            for (double u = uFrom + uStep; u <= uTo + uStep; u += uStep) {
                 double prevU = u - uStep;
 
                 value = buffer.get(new Key(u, v));
