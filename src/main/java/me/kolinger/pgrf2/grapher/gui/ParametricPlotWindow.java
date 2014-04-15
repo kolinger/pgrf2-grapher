@@ -1,6 +1,8 @@
 package me.kolinger.pgrf2.grapher.gui;
 
 import me.kolinger.pgrf2.grapher.graphics.ParametricPlot;
+import me.kolinger.pgrf2.grapher.math.BuiltInFunctions;
+import me.kolinger.pgrf2.grapher.math.BuiltInParametricPlots;
 import me.kolinger.pgrf2.grapher.math.Calculator;
 
 import javax.swing.AbstractAction;
@@ -27,6 +29,7 @@ public class ParametricPlotWindow extends BasePlotWindow {
     private JTextField xFunctionField;
     private JTextField yFunctionField;
     private JTextField zFunctionField;
+    private JComboBox builtInPlots;
 
     private JTextField uFromField;
     private JTextField uToField;
@@ -38,9 +41,14 @@ public class ParametricPlotWindow extends BasePlotWindow {
 
     public ParametricPlotWindow(MainWindow mainWindow) {
         super(mainWindow);
-        plot.setXCalculator(new Calculator("cos(u)"));
-        plot.setYCalculator(new Calculator("sin(u)+cos(v)"));
-        plot.setZCalculator(new Calculator("sin(v)"));
+        BuiltInParametricPlots.Plot currentPlot = BuiltInParametricPlots.getPlots().get(0);
+        plot.setXCalculator(new Calculator(currentPlot.getXFunction()));
+        plot.setYCalculator(new Calculator(currentPlot.getYFunction()));
+        plot.setZCalculator(new Calculator(currentPlot.getZFunction()));
+        plot.setUFrom(currentPlot.getUFrom());
+        plot.setUTo(currentPlot.getUTo());
+        plot.setVFrom(currentPlot.getVFrom());
+        plot.setVTo(currentPlot.getVTo());
         setPlot(plot);
         run();
     }
@@ -57,7 +65,7 @@ public class ParametricPlotWindow extends BasePlotWindow {
         panel.add(new JLabel("X function: "), gbc);
 
         gbc.gridx = 1;
-        xFunctionField = new JTextField(null, 75);
+        xFunctionField = new JTextField(null, 60);
         xFunctionField.setText(plot.getXCalculator().getFunction());
         panel.add(xFunctionField, gbc);
 
@@ -67,7 +75,7 @@ public class ParametricPlotWindow extends BasePlotWindow {
         panel.add(new JLabel("Y function: "), gbc);
 
         gbc.gridx = 1;
-        yFunctionField = new JTextField(null, 75);
+        yFunctionField = new JTextField(null, 60);
         yFunctionField.setText(plot.getYCalculator().getFunction());
         panel.add(yFunctionField, gbc);
 
@@ -77,9 +85,30 @@ public class ParametricPlotWindow extends BasePlotWindow {
         panel.add(new JLabel("Z function: "), gbc);
 
         gbc.gridx = 1;
-        zFunctionField = new JTextField(null, 75);
+        zFunctionField = new JTextField(null, 60);
         zFunctionField.setText(plot.getZCalculator().getFunction());
         panel.add(zFunctionField, gbc);
+
+        // built in plots box
+        gbc.gridx = 2;
+        gbc.gridy = 0;
+        gbc.gridheight = 3;
+        builtInPlots = new JComboBox(BuiltInParametricPlots.getPlots());
+        builtInPlots.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                BuiltInParametricPlots.Plot function = (BuiltInParametricPlots.Plot) builtInPlots.getSelectedItem();
+                xFunctionField.setText(function.getXFunction());
+                yFunctionField.setText(function.getYFunction());
+                zFunctionField.setText(function.getZFunction());
+                uFromField.setText(String.valueOf(function.getUFrom()));
+                uToField.setText(String.valueOf(function.getUTo()));
+                vFromField.setText(String.valueOf(function.getVFrom()));
+                vToField.setText(String.valueOf(function.getVTo()));
+            }
+        });
+        panel.add(builtInPlots, gbc);
+
 
         return panel;
     }
