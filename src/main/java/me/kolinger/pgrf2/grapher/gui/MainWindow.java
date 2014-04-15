@@ -41,12 +41,14 @@ public class MainWindow extends JFrame implements Runnable {
 
     public void switchToNormalMode() {
         plotWindow.setVisible(false);
+        plotWindow.getAnimator().stop();
         plotWindow = new NormalPlotWindow(this);
         plotWindow.setVisible(true);
     }
 
     public void switchToParametricMode() {
         plotWindow.setVisible(false);
+        plotWindow.getAnimator().stop();
         plotWindow = new ParametricPlotWindow(this);
         plotWindow.setVisible(true);
     }

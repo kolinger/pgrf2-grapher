@@ -1,5 +1,6 @@
 package me.kolinger.pgrf2.grapher.gui;
 
+import com.jogamp.opengl.util.AnimatorBase;
 import com.jogamp.opengl.util.FPSAnimator;
 import me.kolinger.pgrf2.grapher.graphics.BasePlot;
 
@@ -27,6 +28,7 @@ public abstract class BasePlotWindow extends JFrame implements Runnable {
 
     private MainWindow mainWindow;
     private BasePlot plot;
+    private AnimatorBase animator;
 
     protected Integer startX = 0;
     protected Integer startY = 0;
@@ -63,6 +65,14 @@ public abstract class BasePlotWindow extends JFrame implements Runnable {
 
     public void setPlot(BasePlot plot) {
         this.plot = plot;
+    }
+
+    public AnimatorBase getAnimator() {
+        return animator;
+    }
+
+    public void setAnimator(AnimatorBase animator) {
+        this.animator = animator;
     }
 
     public Integer getStartX() {
@@ -213,7 +223,7 @@ public abstract class BasePlotWindow extends JFrame implements Runnable {
             }
         });
 
-        FPSAnimator animator = new FPSAnimator(25);
+        animator = new FPSAnimator(25);
         animator.add(canvas);
         animator.start();
 
