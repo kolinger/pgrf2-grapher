@@ -1,6 +1,5 @@
 package me.kolinger.pgrf2.grapher.graphics;
 
-import com.jogamp.opengl.util.awt.TextRenderer;
 import me.kolinger.pgrf2.grapher.graphics.model.Color;
 import me.kolinger.pgrf2.grapher.graphics.model.Point;
 import me.kolinger.pgrf2.grapher.graphics.model.Quad;
@@ -93,12 +92,6 @@ public class Plot extends BasePlot {
      */
 
     @Override
-    protected void drawText(TextRenderer renderer) {
-        renderer.draw("Function: " + calculator.getFunction(), 10, 10);
-        renderer.draw("Density: " + getQuads().size(), 10, 30);
-    }
-
-    @Override
     protected void processCalculations() {
         if (!isNeedRefresh()) {
             return; // quads are already calculated, skip
@@ -114,15 +107,19 @@ public class Plot extends BasePlot {
         // calculate all Z coordinates, store in buffer for future usage
         for (double y = yFrom; y <= yTo; y += yStep) {
             for (double x = xFrom; x <= xTo; x += xStep) {
-                Double z = calculator.calculate(x, y);
-                buffer.put(new Key(x, y), z);
-                if (z != null) {
-                    if (z < minZ) {
-                        minZ = z;
+                try {
+                    Double z = calculator.calculate(x, y);
+                    buffer.put(new Key(x, y), z);
+                    if (z != null) {
+                        if (z < minZ) {
+                            minZ = z;
+                        }
+                        if (z > maxZ) {
+                            maxZ = z;
+                        }
                     }
-                    if (z > maxZ) {
-                        maxZ = z;
-                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         }

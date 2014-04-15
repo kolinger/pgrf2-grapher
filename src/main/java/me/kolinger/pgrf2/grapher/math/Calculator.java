@@ -25,15 +25,10 @@ public class Calculator {
         this.function = function;
     }
 
-    public Double calculate(double x, double y) {
-        try {
-            builder.withVariable("x", x);
-            builder.withVariable("y", y);
-            return builder.build().calculate();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+    public Double calculate(double x, double y) throws Exception{
+        builder.withVariable("x", x);
+        builder.withVariable("y", y);
+        return builder.build().calculate();
     }
 
     public Double calculateParametric(double u, double v) {
