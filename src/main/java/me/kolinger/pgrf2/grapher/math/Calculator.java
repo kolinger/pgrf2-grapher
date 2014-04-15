@@ -31,15 +31,10 @@ public class Calculator {
         return builder.build().calculate();
     }
 
-    public Double calculateParametric(double u, double v) {
-        try {
-            builder.withVariable("u", u);
-            builder.withVariable("v", v);
-            return builder.build().calculate();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+    public Double calculateParametric(double u, double v) throws Exception{
+        builder.withVariable("u", u);
+        builder.withVariable("v", v);
+        return builder.build().calculate();
     }
 
     private ExpressionBuilder createBuilder(String expression) {
