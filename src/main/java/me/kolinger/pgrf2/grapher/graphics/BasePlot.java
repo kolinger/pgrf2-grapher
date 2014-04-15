@@ -1,8 +1,8 @@
-package me.kolinger.pgrf2.grapher.grapher;
+package me.kolinger.pgrf2.grapher.graphics;
 
 
 import com.jogamp.opengl.util.awt.TextRenderer;
-import me.kolinger.pgrf2.grapher.grapher.model.Quad;
+import me.kolinger.pgrf2.grapher.graphics.model.Quad;
 
 import java.util.ArrayList;
 import java.util.List;

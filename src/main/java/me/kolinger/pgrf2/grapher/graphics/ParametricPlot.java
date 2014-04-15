@@ -1,9 +1,6 @@
-package me.kolinger.pgrf2.grapher.grapher;
+package me.kolinger.pgrf2.grapher.graphics;
 
 import me.kolinger.pgrf2.grapher.math.Calculator;
-
-import javax.media.opengl.GL2;
-import javax.media.opengl.GLAutoDrawable;
 
 /**
  * Parametric plot - three functions for X, Y, Z with range for u and v

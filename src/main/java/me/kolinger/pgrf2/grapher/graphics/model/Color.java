@@ -1,4 +1,4 @@
-package me.kolinger.pgrf2.grapher.grapher.model;
+package me.kolinger.pgrf2.grapher.graphics.model;
 
 /**
  * @author Tomáš Kolinger <tomas@kolinger.name>

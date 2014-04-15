@@ -1,9 +1,9 @@
-package me.kolinger.pgrf2.grapher.grapher;
+package me.kolinger.pgrf2.grapher.graphics;
 
 import com.jogamp.opengl.util.awt.TextRenderer;
-import me.kolinger.pgrf2.grapher.grapher.model.Color;
-import me.kolinger.pgrf2.grapher.grapher.model.Point;
-import me.kolinger.pgrf2.grapher.grapher.model.Quad;
+import me.kolinger.pgrf2.grapher.graphics.model.Color;
+import me.kolinger.pgrf2.grapher.graphics.model.Point;
+import me.kolinger.pgrf2.grapher.graphics.model.Quad;
 import me.kolinger.pgrf2.grapher.math.Calculator;
 
 import java.math.BigDecimal;
