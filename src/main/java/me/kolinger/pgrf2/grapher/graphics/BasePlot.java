@@ -16,7 +16,7 @@ public abstract class BasePlot {
     final public static int COLOR_GREEN = 1;
     final public static int COLOR_BLUE = 2;
 
-    private int color = COLOR_BLUE;
+    private int color = COLOR_GREEN;
     private boolean linesEnabled = false;
     private boolean fillEnabled = true;
     private boolean axesEnabled = true;
@@ -117,6 +117,4 @@ public abstract class BasePlot {
     }
 
     protected abstract void processCalculations();
-
-    protected abstract void drawText(TextRenderer renderer);
 }

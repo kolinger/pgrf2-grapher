@@ -1,7 +1,6 @@
 package me.kolinger.pgrf2.grapher.graphics;
 
 
-import com.jogamp.opengl.util.awt.TextRenderer;
 import me.kolinger.pgrf2.grapher.graphics.model.Color;
 import me.kolinger.pgrf2.grapher.graphics.model.Point;
 import me.kolinger.pgrf2.grapher.graphics.model.Quad;
@@ -10,7 +9,6 @@ import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
-import java.awt.Font;
 
 /**
  * @author Tomáš Kolinger <tomas@kolinger.name>
@@ -20,7 +18,6 @@ public class Listener implements GLEventListener {
     private GL2 gl;
     private GLU glu;
     private BasePlot plot;
-    private TextRenderer textRenderer = new TextRenderer(new Font("SansSerif", Font.PLAIN, 16));
 
     private int width;
     private int height;
@@ -166,11 +163,6 @@ public class Listener implements GLEventListener {
             gl.glVertex3f(0, 0, -1);
             gl.glEnd();
         }
-
-        textRenderer.beginRendering(width, height);
-        textRenderer.setColor(1, 1, 1, 1);
-        plot.drawText(textRenderer);
-        textRenderer.endRendering();
     }
 
     /**
