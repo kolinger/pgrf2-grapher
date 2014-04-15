@@ -65,7 +65,7 @@ public class ParametricPlotWindow extends BasePlotWindow {
         panel.add(new JLabel("X function: "), gbc);
 
         gbc.gridx = 1;
-        xFunctionField = new JTextField(null, 60);
+        xFunctionField = new JTextField(null, 65);
         xFunctionField.setText(plot.getXCalculator().getFunction());
         panel.add(xFunctionField, gbc);
 
@@ -75,7 +75,7 @@ public class ParametricPlotWindow extends BasePlotWindow {
         panel.add(new JLabel("Y function: "), gbc);
 
         gbc.gridx = 1;
-        yFunctionField = new JTextField(null, 60);
+        yFunctionField = new JTextField(null, 65);
         yFunctionField.setText(plot.getYCalculator().getFunction());
         panel.add(yFunctionField, gbc);
 
@@ -85,7 +85,7 @@ public class ParametricPlotWindow extends BasePlotWindow {
         panel.add(new JLabel("Z function: "), gbc);
 
         gbc.gridx = 1;
-        zFunctionField = new JTextField(null, 60);
+        zFunctionField = new JTextField(null, 65);
         zFunctionField.setText(plot.getZCalculator().getFunction());
         panel.add(zFunctionField, gbc);
 
