@@ -91,7 +91,7 @@ public class MainWindow extends JFrame implements Runnable {
         add(panel);
     }
 
-    private GLJPanel buildCanvas() {
+    private GLCanvas buildCanvas() {
         GLProfile glprofile = GLProfile.getDefault();
         GLCapabilities glcapabilities = new GLCapabilities(glprofile);
         GLCanvas canvas = new GLCanvas(glcapabilities);
@@ -149,9 +149,7 @@ public class MainWindow extends JFrame implements Runnable {
         animator.start();
 
         canvas.setSize(800, 600);
-        GLJPanel panel = new GLJPanel();
-        panel.add(canvas);
-        return panel;
+        return canvas;
     }
 
     private JPanel buildSideControls() {
