@@ -152,24 +152,24 @@ public class ParametricPlot extends BasePlot {
 
         // generate quads with relevant color
         for (double v = vFrom + vStep; v <= vTo; v += vStep) {
-            double prevY = v - vStep;
+            double prevV = v - vStep;
 
             for (double u = uFrom + uStep; u <= uTo; u += uStep) {
-                double prevX = u - uStep;
+                double prevU = u - uStep;
 
                 value = buffer.get(new Key(u, v));
                 color = calculateColorByZ(value.getZ(), range);
                 a = new Point(value.getX(), value.getY(), value.getZ(), color);
 
-                value = buffer.get(new Key(u, prevY));
+                value = buffer.get(new Key(u, prevV));
                 color = calculateColorByZ(value.getZ(), range);
                 b = new Point(value.getX(), value.getY(), value.getZ(), color);
 
-                value = buffer.get(new Key(prevX, prevY));
+                value = buffer.get(new Key(prevU, prevV));
                 color = calculateColorByZ(value.getZ(), range);
                 c = new Point(value.getX(), value.getY(), value.getZ(), color);
 
-                value = buffer.get(new Key(prevX, v));
+                value = buffer.get(new Key(prevU, v));
                 color = calculateColorByZ(value.getZ(), range);
                 d = new Point(value.getX(), value.getY(), value.getZ(), color);
 
