@@ -1,7 +1,6 @@
 package me.kolinger.pgrf2.grapher.graphics;
 
 
-import com.jogamp.opengl.util.awt.TextRenderer;
 import me.kolinger.pgrf2.grapher.graphics.model.Quad;
 
 import java.util.ArrayList;
@@ -23,7 +22,7 @@ public abstract class BasePlot {
     private boolean lightEnabled = true;
     private int rotateX = 0;
     private int rotateY = 0;
-    private double distance = 5;
+    private double distance = 2;
     private boolean needRefresh = true;
     private List<Quad> quads = new ArrayList<Quad>();
     private Listener listener = new Listener(this);
