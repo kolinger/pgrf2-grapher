@@ -1,6 +1,14 @@
 package me.kolinger.pgrf2.grapher.graphics;
 
+import me.kolinger.pgrf2.grapher.graphics.model.Color;
+import me.kolinger.pgrf2.grapher.graphics.model.Point;
+import me.kolinger.pgrf2.grapher.graphics.model.Quad;
 import me.kolinger.pgrf2.grapher.math.Calculator;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Parametric plot - three functions for X, Y, Z with range for u and v
@@ -10,12 +18,12 @@ import me.kolinger.pgrf2.grapher.math.Calculator;
 public class ParametricPlot extends BasePlot {
 
     private double uFrom = 0;
-    private double uTo = 3.14;
-    private double uStep = 0.01;
+    private double uTo = 2 * Math.PI;
+    private double uStep = 0.1;
 
-    private double vFrom = -3.14;
-    private double vTo = 3.14;
-    private double vStep = 0.01;
+    private double vFrom = -Math.PI;
+    private double vTo = Math.PI;
+    private double vStep = 0.1;
 
     private Calculator xCalculator;
     private Calculator yCalculator;
@@ -103,6 +111,152 @@ public class ParametricPlot extends BasePlot {
 
     @Override
     protected void processCalculations() {
+        if (!isNeedRefresh()) {
+            return; // quads are already calculated, skip
+        }
 
+        getQuads().clear(); // delete old quads
+
+        // generate new quads
+        double minZ = Double.POSITIVE_INFINITY;
+        double maxZ = Double.NEGATIVE_INFINITY;
+        Map<Key, Value> buffer = new HashMap<Key, Value>();
+
+        // calculate all coordinates, store in buffer for future usage
+        for (double v = vFrom; v <= vTo; v += vStep) {
+            for (double u = uFrom; u <= uTo; u += uStep) {
+                try {
+                    Double x = xCalculator.calculateParametric(u, v);
+                    Double y = yCalculator.calculateParametric(u, v);
+                    Double z = zCalculator.calculateParametric(u, v);
+                    buffer.put(new Key(u, v), new Value(x, y, z));
+                    if (z != null) {
+                        if (z < minZ) {
+                            minZ = z;
+                        }
+                        if (z > maxZ) {
+                            maxZ = z;
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        double range = Math.abs(minZ) + maxZ;
+
+        Value value;
+        Color color;
+        Point a, b, c, d;
+
+        // generate quads with relevant color
+        for (double v = vFrom + vStep; v <= vTo; v += vStep) {
+            double prevY = v - vStep;
+
+            for (double u = uFrom + uStep; u <= uTo; u += uStep) {
+                double prevX = u - uStep;
+
+                value = buffer.get(new Key(u, v));
+                color = calculateColorByZ(value.getZ(), range);
+                a = new Point(value.getX(), value.getY(), value.getZ(), color);
+
+                value = buffer.get(new Key(u, prevY));
+                color = calculateColorByZ(value.getZ(), range);
+                b = new Point(value.getX(), value.getY(), value.getZ(), color);
+
+                value = buffer.get(new Key(prevX, prevY));
+                color = calculateColorByZ(value.getZ(), range);
+                c = new Point(value.getX(), value.getY(), value.getZ(), color);
+
+                value = buffer.get(new Key(prevX, v));
+                color = calculateColorByZ(value.getZ(), range);
+                d = new Point(value.getX(), value.getY(), value.getZ(), color);
+
+                getQuads().add(new Quad(a, b, c, d));
+            }
+        }
+
+        setNeedRefresh(false); // prevents unnecessary calculations
+    }
+
+    private Color calculateColorByZ(double z, double range) {
+        double colorIntensity = 0.008 * ((z / range) * 100);
+        if (getColor() == COLOR_RED) {
+            return new Color(1, colorIntensity, colorIntensity);
+        } else if (getColor() == COLOR_GREEN) {
+            return new Color(colorIntensity, 1, colorIntensity);
+        } else {
+            return new Color(colorIntensity, colorIntensity, 1);
+        }
+    }
+
+    /**
+     * Helpers for storing calculated x, y and z coordinates in map (mapped by u and v values)
+     */
+    public class Key {
+        private BigDecimal u;
+        private BigDecimal v;
+
+        public Key(double u, double v) {
+            this.u = new BigDecimal(u).setScale(2, RoundingMode.HALF_UP);
+            this.v = new BigDecimal(v).setScale(2, RoundingMode.HALF_UP);
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            Key key = (Key) o;
+
+            if (key.u.compareTo(u) != 0) return false;
+            if (key.v.compareTo(v) != 0) return false;
+
+            return true;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = u != null ? u.hashCode() : 0;
+            result = 31 * result + (v != null ? v.hashCode() : 0);
+            return result;
+        }
+    }
+
+    public class Value {
+        private double x;
+        private double y;
+        private double z;
+
+        public Value(double x, double y, double z) {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+        }
+
+        public double getX() {
+            return x;
+        }
+
+        public void setX(double x) {
+            this.x = x;
+        }
+
+        public double getY() {
+            return y;
+        }
+
+        public void setY(double y) {
+            this.y = y;
+        }
+
+        public double getZ() {
+            return z;
+        }
+
+        public void setZ(double z) {
+            this.z = z;
+        }
     }
 }
