@@ -11,7 +11,7 @@ public class MainWindow extends JFrame implements Runnable {
     final public static int MODE_PARAMETRIC = 1;
 
     private BasePlotWindow plotWindow;
-    private int mode = MODE_Z;
+    private int mode = MODE_PARAMETRIC;
 
     public BasePlotWindow getPlotWindow() {
         return plotWindow;
