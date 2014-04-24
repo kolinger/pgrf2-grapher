@@ -1,6 +1,8 @@
 package me.kolinger.pgrf2.grapher.graphics;
 
 
+import me.kolinger.pgrf2.grapher.graphics.helpers.HSLColor;
+import me.kolinger.pgrf2.grapher.graphics.model.Color;
 import me.kolinger.pgrf2.grapher.graphics.model.Quad;
 
 import java.util.ArrayList;
@@ -116,4 +118,12 @@ public abstract class BasePlot {
     }
 
     protected abstract void processCalculations();
+
+    protected Color calculateColorByZ(double z, double minZ, double zScale) {
+        float h = (float) ((z - minZ) * zScale);
+        float s = 80;
+        float l = 50;
+        float[] rgb = HSLColor.toRGB(h, s, l).getRGBColorComponents(null);
+        return new Color(rgb[0], rgb[1], rgb[2]);
+    }
 }

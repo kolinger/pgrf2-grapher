@@ -144,8 +144,7 @@ public class ParametricPlot extends BasePlot {
             }
         }
 
-        double range = Math.abs(minZ) + maxZ;
-
+        double zScale = maxZ - minZ == 0 ? -360 : -360 / (maxZ - minZ);
         Value value;
         Color color;
         Point a, b, c, d;
@@ -158,19 +157,19 @@ public class ParametricPlot extends BasePlot {
                 double prevU = u - uStep;
 
                 value = buffer.get(new Key(u, v));
-                color = calculateColorByZ(value.getZ(), range);
+                color = calculateColorByZ(value.getZ(), minZ, zScale);
                 a = new Point(value.getX(), value.getY(), value.getZ(), color);
 
                 value = buffer.get(new Key(u, prevV));
-                color = calculateColorByZ(value.getZ(), range);
+                color = calculateColorByZ(value.getZ(), minZ, zScale);
                 b = new Point(value.getX(), value.getY(), value.getZ(), color);
 
                 value = buffer.get(new Key(prevU, prevV));
-                color = calculateColorByZ(value.getZ(), range);
+                color = calculateColorByZ(value.getZ(), minZ, zScale);
                 c = new Point(value.getX(), value.getY(), value.getZ(), color);
 
                 value = buffer.get(new Key(prevU, v));
-                color = calculateColorByZ(value.getZ(), range);
+                color = calculateColorByZ(value.getZ(), minZ, zScale);
                 d = new Point(value.getX(), value.getY(), value.getZ(), color);
 
                 getQuads().add(new Quad(a, b, c, d));
@@ -178,17 +177,6 @@ public class ParametricPlot extends BasePlot {
         }
 
         setNeedRefresh(false); // prevents unnecessary calculations
-    }
-
-    private Color calculateColorByZ(double z, double range) {
-        double colorIntensity = 0.008 * ((z / range) * 100);
-        if (getColor() == COLOR_RED) {
-            return new Color(1, colorIntensity, colorIntensity);
-        } else if (getColor() == COLOR_GREEN) {
-            return new Color(colorIntensity, 1, colorIntensity);
-        } else {
-            return new Color(colorIntensity, colorIntensity, 1);
-        }
     }
 
     /**

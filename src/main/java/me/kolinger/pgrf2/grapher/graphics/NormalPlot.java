@@ -1,5 +1,6 @@
 package me.kolinger.pgrf2.grapher.graphics;
 
+import me.kolinger.pgrf2.grapher.graphics.helpers.HSLColor;
 import me.kolinger.pgrf2.grapher.graphics.model.Color;
 import me.kolinger.pgrf2.grapher.graphics.model.Point;
 import me.kolinger.pgrf2.grapher.graphics.model.Quad;
@@ -110,7 +111,7 @@ public class NormalPlot extends BasePlot {
                 try {
                     Double z = calculator.calculate(x, y);
                     buffer.put(new Key(x, y), z);
-                    if (z != null) {
+                    if (z != null && z != Double.NaN) {
                         if (z < minZ) {
                             minZ = z;
                         }
@@ -124,9 +125,8 @@ public class NormalPlot extends BasePlot {
             }
         }
 
-        double range = Math.abs(minZ) + maxZ;
-
         double z;
+        double zScale = maxZ - minZ == 0 ? -360 : -360 / (maxZ - minZ);
         Color color;
         Point a, b, c, d;
 
@@ -138,19 +138,19 @@ public class NormalPlot extends BasePlot {
                 double prevX = x - xStep;
 
                 z = buffer.get(new Key(x, y));
-                color = calculateColorByZ(z, range);
+                color = calculateColorByZ(z, minZ, zScale);
                 a = new Point(x, y, z, color);
 
                 z = buffer.get(new Key(x, prevY));
-                color = calculateColorByZ(z, range);
+                color = calculateColorByZ(z, minZ, zScale);
                 b = new Point(x, prevY, z, color);
 
                 z = buffer.get(new Key(prevX, prevY));
-                color = calculateColorByZ(z, range);
+                color = calculateColorByZ(z, minZ, zScale);
                 c = new Point(prevX, prevY, z, color);
 
                 z = buffer.get(new Key(prevX, y));
-                color = calculateColorByZ(z, range);
+                color = calculateColorByZ(z, minZ, zScale);
                 d = new Point(prevX, y, z, color);
 
                 getQuads().add(new Quad(a, b, c, d));
@@ -158,17 +158,6 @@ public class NormalPlot extends BasePlot {
         }
 
         setNeedRefresh(false); // prevents unnecessary calculations
-    }
-
-    private Color calculateColorByZ(double z, double range) {
-        double colorIntensity = 0.008 * ((z / range) * 100);
-        if (getColor() == COLOR_RED) {
-            return new Color(1, colorIntensity, colorIntensity);
-        } else if (getColor() == COLOR_GREEN) {
-            return new Color(colorIntensity, 1, colorIntensity);
-        } else {
-            return new Color(colorIntensity, colorIntensity, 1);
-        }
     }
 
     /**
