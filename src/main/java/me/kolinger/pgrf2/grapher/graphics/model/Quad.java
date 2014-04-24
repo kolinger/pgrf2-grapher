@@ -9,12 +9,14 @@ public class Quad {
     private Point b;
     private Point c;
     private Point d;
+    private Point normal;
 
-    public Quad(Point a, Point b, Point c, Point d) {
+    public Quad(Point a, Point b, Point c, Point d, Point normal) {
         this.a = a;
         this.b = b;
         this.c = c;
         this.d = d;
+        this.normal = normal;
     }
 
     public Point getA() {
@@ -47,5 +49,13 @@ public class Quad {
 
     public void setD(Point d) {
         this.d = d;
+    }
+
+    public Point getNormal() {
+        return normal;
+    }
+
+    public void setNormal(Point normal) {
+        this.normal = normal;
     }
 }

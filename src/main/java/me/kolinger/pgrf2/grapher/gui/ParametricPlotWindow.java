@@ -250,6 +250,7 @@ public class ParametricPlotWindow extends BasePlotWindow {
                 int color = colorBox.getSelectedIndex();
                 if (color != plot.getColor()) {
                     plot.setColor(color);
+                    plot.setNeedRefresh(true);
                 }
 
                 // functions

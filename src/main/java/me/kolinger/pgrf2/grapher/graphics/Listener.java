@@ -96,23 +96,9 @@ public class Listener implements GLEventListener {
         for (Quad quad : plot.getQuads()) {
             if (plot.isFillEnabled()) {
                 gl.glBegin(GL2.GL_QUADS);
-                // calculate normals and material if is light enabled
                 if (plot.isLightEnabled()) {
-                    double normalX = ((quad.getA().getY() - quad.getB().getY()) * (quad.getA().getZ() + quad.getB().getZ()))
-                            + ((quad.getB().getY() - quad.getC().getY()) * (quad.getB().getZ() + quad.getC().getZ()))
-                            + ((quad.getC().getY() - quad.getD().getY()) * (quad.getC().getZ() + quad.getD().getZ()))
-                            + ((quad.getD().getY() - quad.getA().getY()) * (quad.getD().getZ() + quad.getA().getZ()));
-                    double normalY = ((quad.getA().getZ() - quad.getB().getZ()) * (quad.getA().getX() + quad.getB().getX()))
-                            + ((quad.getB().getZ() - quad.getC().getZ()) * (quad.getB().getX() + quad.getC().getX()))
-                            + ((quad.getC().getZ() - quad.getD().getZ()) * (quad.getC().getX() + quad.getD().getX()))
-                            + ((quad.getD().getZ() - quad.getA().getZ()) * (quad.getD().getX() + quad.getA().getX()));
-                    double normalZ = ((quad.getA().getX() - quad.getB().getX()) * (quad.getA().getY() + quad.getB().getY()))
-                            + ((quad.getB().getX() - quad.getC().getX()) * (quad.getB().getY() + quad.getC().getY()))
-                            + ((quad.getC().getX() - quad.getD().getX()) * (quad.getC().getY() + quad.getD().getY()))
-                            + ((quad.getD().getX() - quad.getA().getX()) * (quad.getD().getY() + quad.getA().getY()));
-
-                    gl.glNormal3d(-normalX, -normalY, -normalZ);
-                    gl.glNormal3d(normalX, normalY, normalZ);
+                    gl.glNormal3d(-quad.getNormal().getX(), -quad.getNormal().getY(), -quad.getNormal().getZ());
+                    gl.glNormal3d(quad.getNormal().getX(), quad.getNormal().getY(), quad.getNormal().getZ());
 
                     float[] color;
                     if (plot.getColor() == BasePlot.COLOR_RED) {

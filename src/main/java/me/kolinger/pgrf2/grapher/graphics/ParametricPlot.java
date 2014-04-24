@@ -147,7 +147,7 @@ public class ParametricPlot extends BasePlot {
         double zScale = maxZ - minZ == 0 ? -360 : -360 / (maxZ - minZ);
         Value value;
         Color color;
-        Point a, b, c, d;
+        Point a, b, c, d, normal;
 
         // generate quads with relevant color
         for (double v = vFrom + vStep; v <= vTo + vStep; v += vStep) {
@@ -172,7 +172,21 @@ public class ParametricPlot extends BasePlot {
                 color = calculateColorByZ(value.getZ(), minZ, zScale);
                 d = new Point(value.getX(), value.getY(), value.getZ(), color);
 
-                getQuads().add(new Quad(a, b, c, d));
+                double normalX = ((a.getY() - b.getY()) * (a.getZ() + b.getZ()))
+                        + ((b.getY() - c.getY()) * (b.getZ() + c.getZ()))
+                        + ((c.getY() - d.getY()) * (c.getZ() + d.getZ()))
+                        + ((d.getY() - a.getY()) * (d.getZ() + a.getZ()));
+                double normalY = ((a.getZ() - b.getZ()) * (a.getX() + b.getX()))
+                        + ((b.getZ() - c.getZ()) * (b.getX() + c.getX()))
+                        + ((c.getZ() - d.getZ()) * (c.getX() + d.getX()))
+                        + ((d.getZ() - a.getZ()) * (d.getX() + a.getX()));
+                double normalZ = ((a.getX() - b.getX()) * (a.getY() + b.getY()))
+                        + ((b.getX() - c.getX()) * (b.getY() + c.getY()))
+                        + ((c.getX() - d.getX()) * (c.getY() + d.getY()))
+                        + ((d.getX() - a.getX()) * (d.getY() + a.getY()));
+                normal = new Point(normalX, normalY, normalZ);
+
+                getQuads().add(new Quad(a, b, c, d, normal));
             }
         }
 

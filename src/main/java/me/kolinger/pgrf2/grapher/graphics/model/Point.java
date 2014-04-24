@@ -10,6 +10,12 @@ public class Point {
     private double z;
     private Color color;
 
+    public Point(double x, double y, double z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
+
     public Point(double x, double y, double z, Color color) {
         this.x = x;
         this.y = y;
