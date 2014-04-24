@@ -147,7 +147,7 @@ public abstract class BasePlotWindow extends JFrame implements Runnable {
     public void run() {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setup();
-        setTitle("3D Grapher");
+        setTitle("3D Grapher (PGRF2 project, Tomáš Kolinger, April 2014)");
         pack();
         setLocationRelativeTo(null);
         setResizable(false);
