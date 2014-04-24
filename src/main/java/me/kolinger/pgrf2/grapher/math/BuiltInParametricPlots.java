@@ -107,14 +107,6 @@ public class BuiltInParametricPlots {
                 -1.57, 1.57
         ));
         plots.add(new Plot(
-                "Klein bottle",
-                "(3*(1+sin(v)) + 2*(1-cos(v)/2)*cos(u))*cos(v)",
-                "(4+2*(1-cos(v)/2)*cos(u))*sin(v)",
-                "-2*(1-cos(v)/2) * sin(u)",
-                0, 6.28,
-                0, 6.28
-        ));
-        plots.add(new Plot(
                 "Enneper's surface",
                 "u -u^3/3  + u*v^2",
                 "v -v^3/3  + v*u^2",
@@ -137,14 +129,6 @@ public class BuiltInParametricPlots {
                 "(cos(v)+log(tan(v/2))) + 0.2*u",
                 0, 12.4,
                 0.1, 2
-        ));
-        plots.add(new Plot(
-                "Catalan's surface",
-                "u-sin(u)*cosh(v)",
-                "1-cos(u)*cosh(v)",
-                "4*sin(1/2*u)*sinh(v/2)",
-                -3.14, 9.42,
-                -2, 5
         ));
     }
 

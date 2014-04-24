@@ -16,14 +16,9 @@ public class BuiltInFunctions {
         functions.add(new Function("Cone", "(x^2+y^2)^0.5"));
         functions.add(new Function("Stairs", "(sign(-0.65-x)+sign(-0.35-x)+sign(-0.05-x)+sign(0.25-x)+sign(0.55-x))/7"));
         functions.add(new Function("Roof", "1-abs(y)"));
-        functions.add(new Function("Cross 1", "0.1 - sign(sign((x*12)^2-9)-1 + sign((y*12)^2-9)-1)/2"));
-        functions.add(new Function("Cross 2", "0.75/exp((x*5)^2*(y*5)^2)"));
+        functions.add(new Function("Cross", "0.75/exp((x*5)^2*(y*5)^2)"));
         functions.add(new Function("Pyramid", "1-abs(x+y)-abs(y-x)"));
         functions.add(new Function("Triangle", "(1-sign(-x-0.51+abs(y*2)))/3 * (sign(0.5-x)+1)/3"));
-        functions.add(new Function("Top Hat", "(sign(0.2-(x^2+y^2)) + sign(0.2-(x^2/3+y^2/3)))/3-1"));
-        functions.add(new Function("Letter A", "((1-sign(-x-0.9+abs(y*2)))/3*(sign(0.9-x)+1)/3)*(sign(x+0.65)+1)/2 - ((1-sign(-x-0.39+abs(y*2)))/3*(sign(0.9-x)+1)/3) + ((1-sign(-x-0.39+abs(y*2)))/3*(sign(0.6-x)+1)/3)*(sign(x-0.35)+1)/2"));
-        functions.add(new Function("Letter O", "(-sign(0.2-(x^2+y^2)) + sign(0.2-(x^2/3+y^2/3)))/9"));
-        functions.add(new Function("Letter V", "sign(x-1+abs(y*2))/3 + sign(x-0.5+abs(y*2))/3"));
     }
 
     public static Vector<Function> getFunctions() {
